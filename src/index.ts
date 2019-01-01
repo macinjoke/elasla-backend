@@ -17,6 +17,8 @@ passport.use(
 )
 
 app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
+app.use(passport.initialize())
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*')
