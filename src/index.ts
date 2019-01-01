@@ -32,9 +32,14 @@ app.use((req, res, next) => {
 app.get('/', (req, res) => res.send('Hello World!'))
 app.use('/api', api)
 
-app.post('/login', passport.authenticate('local'), (req, res) => {
-  console.log('success authentication')
-})
+app.post(
+  '/api/login',
+  passport.authenticate('local', { session: false }),
+  (req, res) => {
+    console.log('success authentication')
+    res.send('login success. user:' + JSON.stringify(req.user))
+  },
+)
 
 app.post(
   '/api/secure/local',
