@@ -2,11 +2,10 @@ import express from 'express'
 import { sign, verify as _verify } from 'jsonwebtoken'
 import passport from 'passport'
 import { promisify } from 'util'
+import config from './config'
 
 const verify = promisify(_verify)
 const router = express.Router()
-
-const secretKey = 'aweiojvcnmcvsadifoweafjewa' // TODO
 
 router.get('/some_data', (req, res, next) => {
   res.json({ some_hoge: { A: 'aaaa', B: 'bbbb' } })
@@ -20,14 +19,14 @@ router.post(
     console.log('success authentication')
     res.json({
       ...req.body,
-      jwt: sign({ username: req.body.username }, secretKey),
+      jwt: sign({ username: req.body.username }, config.secretKey),
     })
   },
 )
 
 router.get('/login', async (req: any, res) => {
   const jsonWebToken = req.headers.authorization.split(' ')[1]
-  const decoded: any = await verify(jsonWebToken, secretKey).catch(e => {
+  const decoded: any = await verify(jsonWebToken, config.secretKey).catch(e => {
     res.status(400).json({ error: 'MalformedJWT' })
     return
   })

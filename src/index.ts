@@ -4,6 +4,7 @@ import passport from 'passport'
 import { ExtractJwt, Strategy as JwtStrategy } from 'passport-jwt'
 import { Strategy as LocalStrategy } from 'passport-local'
 import api from './api'
+import config from './config'
 
 const app = express()
 
@@ -17,12 +18,10 @@ passport.use(
   }),
 )
 
-const secretKey = 'aweiojvcnmcvsadifoweafjewa' // TODO
-
 passport.use(
   new JwtStrategy(
     {
-      secretOrKey: secretKey,
+      secretOrKey: config.secretKey,
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     },
     (payload, done) => {
