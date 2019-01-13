@@ -1,6 +1,7 @@
 import bodyParser from 'body-parser'
 import express from 'express'
 import passport from 'passport'
+import { ExtractJwt, Strategy as JwtStrategy } from 'passport-jwt'
 import { Strategy as LocalStrategy } from 'passport-local'
 import api from './api'
 
@@ -14,6 +15,24 @@ passport.use(
       return done(null, false)
     }
   }),
+)
+
+const secretKey = 'aweiojvcnmcvsadifoweafjewa' // TODO
+
+passport.use(
+  new JwtStrategy(
+    {
+      secretOrKey: secretKey,
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+    },
+    (payload, done) => {
+      if (payload.username === 'test') {
+        return done(null, { hoge: 'hogehogehoge' })
+      } else {
+        return done(null, false)
+      }
+    },
+  ),
 )
 
 app.use(bodyParser.urlencoded({ extended: false }))

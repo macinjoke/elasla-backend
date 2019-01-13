@@ -51,4 +51,15 @@ router.post(
   },
 )
 
+router.get(
+  '/secure/local',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    res.json({
+      someSecretData: 'secretttttt',
+      user: req.user,
+    })
+  },
+)
+
 export default router
