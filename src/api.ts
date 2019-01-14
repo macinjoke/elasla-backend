@@ -1,10 +1,8 @@
 import express from 'express'
-import { sign, verify as _verify } from 'jsonwebtoken'
+import { sign } from 'jsonwebtoken'
 import passport from 'passport'
-import { promisify } from 'util'
 import config from './config'
 
-const verify = promisify(_verify)
 const router = express.Router()
 
 router.get('/some_data', (req, res, next) => {
@@ -24,23 +22,14 @@ router.post(
   },
 )
 
-router.get('/login', async (req: any, res) => {
-  const jsonWebToken = req.headers.authorization.split(' ')[1]
-  const decoded: any = await verify(jsonWebToken, config.secretKey).catch(e => {
-    res.status(400).json({ error: 'MalformedJWT' })
-    return
-  })
-  console.log('decoded: ' + JSON.stringify(decoded))
-  if (!decoded) return
-  if (decoded.username === 'test') {
-    res.json({
-      username: 'test',
-      password: 'test',
-    })
-    return
-  }
-  res.status(401).json({ error: 'Unauthorized', detail: 'invalid jwt' })
-})
+router.get(
+  '/login',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    console.log(req.user)
+    res.json({ username: req.user.username })
+  },
+)
 
 router.post(
   '/secure/local',

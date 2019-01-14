@@ -26,7 +26,7 @@ passport.use(
     },
     (payload, done) => {
       if (payload.username === 'test') {
-        return done(null, { hoge: 'hogehogehoge' })
+        return done(null, payload)
       } else {
         return done(null, false)
       }
