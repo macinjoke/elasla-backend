@@ -2,6 +2,13 @@
 # yarn lockfile v1
 
 
+"@types/better-sqlite3@^5.2.1":
+  version "5.2.1"
+  resolved "https://registry.yarnpkg.com/@types/better-sqlite3/-/better-sqlite3-5.2.1.tgz#7b90489ef88fbbbaedf0cdf03ac6782b3f63fa13"
+  integrity sha512-S1q/Noh3Bc6gMTVEQAk33yxHSfojKRxxvvpynPW6dFjuArxCXzSeRsbi7/K4E8bN6/1jeI6OxWeRrSPyLUFOsQ==
+  dependencies:
+    "@types/integer" "*"
+
 "@types/body-parser@*", "@types/body-parser@^1.17.0":
   version "1.17.0"
   resolved "https://registry.yarnpkg.com/@types/body-parser/-/body-parser-1.17.0.tgz#9f5c9d9bd04bb54be32d5eb9fc0d8c974e6cf58c"
@@ -44,6 +51,11 @@
     "@types/body-parser" "*"
     "@types/express-serve-static-core" "*"
     "@types/serve-static" "*"
+
+"@types/integer@*":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@types/integer/-/integer-1.0.0.tgz#f5b313876012fad0afeb5318f03cb871064eb33e"
+  integrity sha512-3viiRKLoSP2Qr78nMoQjkDc0fan4BgmpOyV1+1gKjE8wWXo3QQ78WItO6f9WuBf3qe3ymDYhM65oqHTOZ0rFxw==
 
 "@types/jsonwebtoken@*", "@types/jsonwebtoken@^8.3.0":
   version "8.3.0"
@@ -249,6 +261,14 @@ base@^0.11.1:
     isobject "^3.0.1"
     mixin-deep "^1.2.0"
     pascalcase "^0.1.1"
+
+better-sqlite3@^5.3.0:
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/better-sqlite3/-/better-sqlite3-5.3.0.tgz#64b5614582886eb5e6c2becfec03d9949f1e101a"
+  integrity sha512-IZWjZsbS00Ys3DHeaB6WzJcJsC4SFiNP5p6doLhYfmZqGOEL84j/O2N/GjvsEmLJzTlYlBu7iVsv2CMbUPPfvg==
+  dependencies:
+    integer "^2.1.0"
+    tar "^4.4.6"
 
 binary-extensions@^1.0.0:
   version "1.12.0"
@@ -1024,6 +1044,11 @@ ini@^1.3.4, ini@~1.3.0:
   version "1.3.5"
   resolved "https://registry.yarnpkg.com/ini/-/ini-1.3.5.tgz#eee25f56db1c9ec6085e0c22778083f596abf927"
   integrity sha512-RZY5huIKCMRWDUqZlEi72f/lmXKMvuszcMBduliQ3nnWbx9X/ZBQO7DijMEYS9EhHBb2qacRUMtC7svLwe0lcw==
+
+integer@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/integer/-/integer-2.1.0.tgz#29134ea2f7ba3362ed4dbe6bcca992b1f18ff276"
+  integrity sha512-vBtiSgrEiNocWvvZX1RVfeOKa2mCHLZQ2p9nkQkQZ/BvEiY+6CcUz0eyjvIiewjJoeNidzg2I+tpPJvpyspL1w==
 
 ipaddr.js@1.8.0:
   version "1.8.0"
@@ -2196,7 +2221,7 @@ supports-color@^5.2.0, supports-color@^5.3.0:
   dependencies:
     has-flag "^3.0.0"
 
-tar@^4:
+tar@^4, tar@^4.4.6:
   version "4.4.8"
   resolved "https://registry.yarnpkg.com/tar/-/tar-4.4.8.tgz#b19eec3fde2a96e64666df9fdb40c5ca1bc3747d"
   integrity sha512-LzHF64s5chPQQS0IYBn9IN5h3i98c12bo4NCO7e0sGM2llXQ3p2FGC5sdENN4cTW48O915Sh+x+EXx7XW96xYQ==

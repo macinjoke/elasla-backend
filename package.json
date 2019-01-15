@@ -11,6 +11,7 @@
     "lint": "tslint -c tslint.json -p tsconfig.json"
   },
   "dependencies": {
+    "better-sqlite3": "^5.3.0",
     "body-parser": "^1.18.3",
     "config": "^3.0.1",
     "express": "^4.16.4",
@@ -20,6 +21,7 @@
     "passport-local": "^1.0.0"
   },
   "devDependencies": {
+    "@types/better-sqlite3": "^5.2.1",
     "@types/body-parser": "^1.17.0",
     "@types/config": "^0.0.34",
     "@types/express": "^4.16.0",

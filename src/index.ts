@@ -5,12 +5,14 @@ import { ExtractJwt, Strategy as JwtStrategy } from 'passport-jwt'
 import { Strategy as LocalStrategy } from 'passport-local'
 import api from './api'
 import config from './config'
+import { login } from './sqlite'
 
 const app = express()
 
 passport.use(
   new LocalStrategy((username, password, done) => {
-    if (username === 'test' && password === 'test') {
+    const row = login(username, password)
+    if (row) {
       return done(null, username)
     } else {
       return done(null, false)
