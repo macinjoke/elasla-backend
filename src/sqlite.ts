@@ -10,3 +10,9 @@ export const login = (username: string, password: string) => {
   const row = stmt.get({ username, password }) // TODO password 暗号化
   return row
 }
+
+export const getUser = (username: string) => {
+  const stmt = db.prepare('SELECT * FROM users where username=@username')
+  const row = stmt.get({ username })
+  return row
+}

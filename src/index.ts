@@ -5,7 +5,7 @@ import { ExtractJwt, Strategy as JwtStrategy } from 'passport-jwt'
 import { Strategy as LocalStrategy } from 'passport-local'
 import api from './api'
 import config from './config'
-import { login } from './sqlite'
+import { login, getUser } from './sqlite'
 
 const app = express()
 
@@ -27,8 +27,9 @@ passport.use(
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     },
     (payload, done) => {
-      if (payload.username === 'test') {
-        return done(null, payload)
+      const row = getUser(payload.username)
+      if (row) {
+        return done(null, row)
       } else {
         return done(null, false)
       }
