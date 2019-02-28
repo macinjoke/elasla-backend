@@ -16,7 +16,10 @@ router.post(
     console.log('success authentication')
     res.json({
       ...req.body,
-      jwt: sign({ username: req.body.username }, process.env.JWT_SECRET_KEY || ''),
+      jwt: sign(
+        { username: req.body.username },
+        process.env.JWT_SECRET_KEY || '',
+      ),
     })
   },
 )
@@ -29,6 +32,11 @@ router.get(
     res.json({ username: req.user.username })
   },
 )
+
+router.post('/register', (req, res) => {
+  console.log(req.body)
+  res.json({ ok: true })
+})
 
 router.post(
   '/secure/local',
