@@ -1,7 +1,6 @@
 import express from 'express'
 import { sign } from 'jsonwebtoken'
 import passport from 'passport'
-import config from './config'
 
 const router = express.Router()
 
@@ -17,7 +16,7 @@ router.post(
     console.log('success authentication')
     res.json({
       ...req.body,
-      jwt: sign({ username: req.body.username }, config.secretKey),
+      jwt: sign({ username: req.body.username }, process.env.JWT_SECRET_KEY || ''),
     })
   },
 )

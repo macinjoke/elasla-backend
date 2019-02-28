@@ -1,11 +1,12 @@
 import bodyParser from 'body-parser'
+import { config } from 'dotenv'
 import express from 'express'
 import passport from 'passport'
 import { ExtractJwt, Strategy as JwtStrategy } from 'passport-jwt'
 import { Strategy as LocalStrategy } from 'passport-local'
 import api from './api'
-import config from './config'
-import { login, getUser } from './sqlite'
+import { getUser, login } from './sqlite'
+config()
 
 const app = express()
 
@@ -23,7 +24,7 @@ passport.use(
 passport.use(
   new JwtStrategy(
     {
-      secretOrKey: config.secretKey,
+      secretOrKey: process.env.JWT_SECRET_KEY,
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     },
     (payload, done) => {
