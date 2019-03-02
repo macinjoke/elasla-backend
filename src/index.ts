@@ -1,12 +1,12 @@
-import bodyParser from 'body-parser'
 import { config } from 'dotenv'
+config()
+import bodyParser from 'body-parser'
 import express from 'express'
 import passport from 'passport'
 import { ExtractJwt, Strategy as JwtStrategy } from 'passport-jwt'
 import { Strategy as LocalStrategy } from 'passport-local'
 import api from './api'
 import { getUser, login } from './sqlite'
-config()
 
 const app = express()
 
