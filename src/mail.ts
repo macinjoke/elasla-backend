@@ -1,7 +1,7 @@
 import { createTransport } from 'nodemailer'
 
 const smtpConfig = {
-  host: 'smtp.gmail.com',
+  host: process.env.SMTP_DOMAIN,
   port: 465,
   secure: true, // SSL
   auth: {
