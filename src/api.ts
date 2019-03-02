@@ -1,6 +1,7 @@
 import express from 'express'
 import { sign } from 'jsonwebtoken'
 import passport from 'passport'
+import { sendMail } from './mail'
 
 const router = express.Router()
 
@@ -33,8 +34,11 @@ router.get(
   },
 )
 
-router.post('/register', (req, res) => {
+router.post('/register', async (req, res) => {
   console.log(req.body)
+  await sendMail(req.body.mailAddress).catch(e => {
+    console.log(e)
+  })
   res.json({ ok: true })
 })
 
