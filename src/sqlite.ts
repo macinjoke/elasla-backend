@@ -16,3 +16,9 @@ export const getUser = (username: string) => {
   const row = stmt.get({ username })
   return row
 }
+
+export const createUser = (username: string, password: string) => {
+  const stmt = db.prepare('insert into users values (@username, @password, 0);')
+  const info = stmt.run({ username, password })
+  return info
+}

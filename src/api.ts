@@ -2,6 +2,7 @@ import express from 'express'
 import { sign } from 'jsonwebtoken'
 import passport from 'passport'
 import { sendMail } from './mail'
+import { createUser } from './sqlite'
 
 const router = express.Router()
 
@@ -36,9 +37,11 @@ router.get(
 
 router.post('/register', async (req, res) => {
   console.log(req.body)
-  await sendMail(req.body.mailAddress).catch(e => {
+  await sendMail(req.body.username).catch(e => {
     console.log(e)
   })
+  const info = createUser(req.body.username, req.body.password)
+  console.log(info)
   res.json({ ok: true })
 })
 

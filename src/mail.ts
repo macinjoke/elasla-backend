@@ -11,9 +11,9 @@ const smtpConfig = {
 }
 const transporter = createTransport(smtpConfig)
 
-export async function sendMail(address: string) {
+export async function sendMail(username: string) {
   const mailOptions = {
-    to: address,
+    to: `${username}@${process.env.CUSTOMER_DOMAIN}`,
     subject: 'メール確認だぜ',
     text: 'やっほー',
   }
