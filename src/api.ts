@@ -17,7 +17,7 @@ router.post(
     console.log(req.body)
     console.log('success authentication')
     res.json({
-      ...req.body,
+      username: req.body.username,
       jwt: sign(
         { username: req.body.username },
         process.env.JWT_SECRET_KEY || '',
