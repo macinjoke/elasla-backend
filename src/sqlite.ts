@@ -10,11 +10,19 @@ export const login = async (username: string, password: string) => {
   const stmt = db.prepare('SELECT * FROM users where username=@username')
   const row = stmt.get({ username })
   const isAuthed = await bcrypt.compare(password, row.password)
-  return isAuthed
+  if (isAuthed) {
+    return {
+      username: row.username,
+      isMailAuthed: row.is_mail_authed,
+    }
+  }
+  return null
 }
 
 export const getUser = (username: string) => {
-  const stmt = db.prepare('SELECT * FROM users where username=@username')
+  const stmt = db.prepare(
+    'SELECT username, is_mail_authed FROM users where username=@username',
+  )
   const row = stmt.get({ username })
   return row
 }

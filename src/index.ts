@@ -12,8 +12,9 @@ const app = express()
 
 passport.use(
   new LocalStrategy(async (username, password, done) => {
-    if (await login(username, password)) {
-      return done(null, username)
+    const row = await login(username, password)
+    if (row) {
+      return done(null, row)
     } else {
       return done(null, false)
     }

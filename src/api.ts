@@ -14,10 +14,11 @@ router.post(
   '/login',
   passport.authenticate('local', { session: false }),
   (req, res) => {
-    console.log(req.body)
+    console.log(req.user)
     console.log('success authentication')
     res.json({
-      username: req.body.username,
+      username: req.user.username,
+      isMailAuthed: Boolean(req.user.isMailAuthed),
       jwt: sign(
         { username: req.body.username },
         process.env.JWT_SECRET_KEY || '',
@@ -31,7 +32,7 @@ router.get(
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
     console.log(req.user)
-    res.json({ username: req.user.username })
+    res.json(req.user)
   },
 )
 
