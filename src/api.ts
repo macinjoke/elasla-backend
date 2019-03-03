@@ -40,7 +40,7 @@ router.post('/register', async (req, res) => {
   await sendMail(req.body.username).catch(e => {
     console.log(e)
   })
-  const info = createUser(req.body.username, req.body.password)
+  const info = await createUser(req.body.username, req.body.password)
   console.log(info)
   res.json({ ok: true })
 })

@@ -11,9 +11,8 @@ import { getUser, login } from './sqlite'
 const app = express()
 
 passport.use(
-  new LocalStrategy((username, password, done) => {
-    const row = login(username, password)
-    if (row) {
+  new LocalStrategy(async (username, password, done) => {
+    if (await login(username, password)) {
       return done(null, username)
     } else {
       return done(null, false)

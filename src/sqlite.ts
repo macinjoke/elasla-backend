@@ -1,14 +1,16 @@
+import * as bcrypt from 'bcrypt'
 import Database from 'better-sqlite3'
 
 const filename = 'db/hoge.sqlite3' // TODO
 const db = new Database(filename)
 
-export const login = (username: string, password: string) => {
-  const stmt = db.prepare(
-    'SELECT * FROM users where username=@username and password=@password',
-  )
-  const row = stmt.get({ username, password }) // TODO password 暗号化
-  return row
+const saltRounds = 10
+
+export const login = async (username: string, password: string) => {
+  const stmt = db.prepare('SELECT * FROM users where username=@username')
+  const row = stmt.get({ username })
+  const isAuthed = await bcrypt.compare(password, row.password)
+  return isAuthed
 }
 
 export const getUser = (username: string) => {
@@ -17,8 +19,9 @@ export const getUser = (username: string) => {
   return row
 }
 
-export const createUser = (username: string, password: string) => {
+export const createUser = async (username: string, password: string) => {
   const stmt = db.prepare('insert into users values (@username, @password, 0);')
-  const info = stmt.run({ username, password })
+  const hash = await bcrypt.hash(password, saltRounds)
+  const info = stmt.run({ username, password: hash })
   return info
 }
