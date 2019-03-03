@@ -9,6 +9,7 @@ const saltRounds = 10
 export const login = async (username: string, password: string) => {
   const stmt = db.prepare('SELECT * FROM users where username=@username')
   const row = stmt.get({ username })
+  if (!row) return null
   const isAuthed = await bcrypt.compare(password, row.password)
   if (isAuthed) {
     return {
