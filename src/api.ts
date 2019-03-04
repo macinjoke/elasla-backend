@@ -36,14 +36,17 @@ router.get(
   },
 )
 
-router.post('/register', async (req, res) => {
+router.post('/register', async (req, res, next) => {
   console.log(req.body)
-  await sendMail(req.body.username).catch(e => {
-    console.log(e)
-  })
-  const info = await createUser(req.body.username, req.body.password)
-  console.log(info)
-  res.json({ ok: true })
+  try {
+    await sendMail(req.body.username)
+    const info = await createUser(req.body.username, req.body.password)
+    console.log(info)
+  } catch (e) {
+    next(e)
+    return
+  }
+  res.json({ username: req.body.username, isMailAuthed: false })
 })
 
 router.post(
