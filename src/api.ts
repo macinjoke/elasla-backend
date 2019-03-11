@@ -1,6 +1,7 @@
 import express from 'express'
 import { sign } from 'jsonwebtoken'
 import passport from 'passport'
+import { search } from './elasticsearch'
 import { sendMail } from './mail'
 import { createUser } from './sqlite'
 
@@ -69,6 +70,17 @@ router.post('/register', async (req, res, next) => {
   }
   res.json({ username: req.body.username, isMailAuthed: false })
 })
+
+router.get(
+  '/search',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    const searchRes = await search('天才')
+    res.json({
+      sources: searchRes.hits.hits.map((hit: any) => hit._source),
+    })
+  },
+)
 
 router.post(
   '/secure/local',
