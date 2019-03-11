@@ -79,7 +79,7 @@ router.post(
 )
 
 router.get(
-  '/secure/local',
+  '/secure/jwt',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
     res.json({
