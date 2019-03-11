@@ -6,6 +6,15 @@ import { createUser } from './sqlite'
 
 const router = express.Router()
 
+function generateExpiration(): number {
+  if (!process.env.EXPIRATION_TIME) {
+    throw Error('set EXPIRATION_TIME environment variable')
+  }
+  return (
+    Math.floor(Date.now() / 1000) + (Number(process.env.EXPIRATION_TIME) || 0)
+  )
+}
+
 router.get('/some_data', (req, res, next) => {
   res.json({ some_hoge: { A: 'aaaa', B: 'bbbb' } })
 })
@@ -15,12 +24,15 @@ router.post(
   passport.authenticate('local', { session: false }),
   (req, res) => {
     console.log(req.user)
-    console.log('success authentication')
+    console.log('login success')
     res.json({
       username: req.user.username,
       isMailAuthed: Boolean(req.user.isMailAuthed),
       jwt: sign(
-        { username: req.body.username },
+        {
+          username: req.user.username,
+          exp: generateExpiration(),
+        },
         process.env.JWT_SECRET_KEY || '',
       ),
     })
@@ -32,7 +44,16 @@ router.get(
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
     console.log(req.user)
-    res.json(req.user)
+    res.json({
+      ...req.user,
+      jwt: sign(
+        {
+          username: req.user.username,
+          exp: generateExpiration(),
+        },
+        process.env.JWT_SECRET_KEY || '',
+      ),
+    })
   },
 )
 
