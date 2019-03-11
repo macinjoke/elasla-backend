@@ -16,6 +16,8 @@
     "no-console": {
       "severity": "warning"
     },
+    "no-unused-variable": [true, {"ignore-pattern": "^_"}],
+    "interface-name": false,
     "object-literal-sort-keys": false
   }
 }
