@@ -74,9 +74,17 @@ router.post('/register', async (req, res, next) => {
 router.get(
   '/search',
   passport.authenticate('jwt', { session: false }),
-  async (req, res) => {
-    const searchRes = await search('天才')
-    res.json(searchRes.hits.hits.map((hit: any) => hit._source))
+  async (req, res, next) => {
+    if (!req.query.q) {
+      res.status(400).send('q query not found')
+      return
+    }
+    try {
+      const searchRes = await search(req.query.q)
+      res.json(searchRes.hits.hits.map((hit: any) => hit._source))
+    } catch (e) {
+      next(e)
+    }
   },
 )
 
