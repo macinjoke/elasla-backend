@@ -76,9 +76,7 @@ router.get(
   passport.authenticate('jwt', { session: false }),
   async (req, res) => {
     const searchRes = await search('天才')
-    res.json({
-      sources: searchRes.hits.hits.map((hit: any) => hit._source),
-    })
+    res.json(searchRes.hits.hits.map((hit: any) => hit._source))
   },
 )
 
