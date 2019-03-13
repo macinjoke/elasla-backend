@@ -1,9 +1,9 @@
 import express from 'express'
-import { sign } from 'jsonwebtoken'
+import { sign, verify } from 'jsonwebtoken'
 import passport from 'passport'
 import { search } from './elasticsearch'
 import { sendMail } from './mail'
-import { createUser } from './sqlite'
+import { authenticateMail, createUser } from './sqlite'
 
 const router = express.Router()
 
@@ -46,7 +46,8 @@ router.get(
   (req, res) => {
     console.log(req.user)
     res.json({
-      ...req.user,
+      username: req.user.username,
+      isMailAuthed: false, // TODO
       jwt: sign(
         {
           username: req.user.username,
@@ -69,6 +70,16 @@ router.post('/register', async (req, res, next) => {
     return
   }
   res.json({ username: req.body.username, isMailAuthed: false })
+})
+
+router.get('/register', (req, res) => {
+  console.log(req.body)
+  const jwt = req.query.token
+  const data = verify(jwt, process.env.JWT_SECRET_KEY || '') as any
+  const info = authenticateMail(data.username)
+  console.log(info)
+  res.send('本登録完了しました')
+  // TODO リダイレクト
 })
 
 router.get(

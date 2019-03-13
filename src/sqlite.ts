@@ -34,3 +34,11 @@ export const createUser = async (username: string, password: string) => {
   const info = stmt.run({ username, password: hash })
   return info
 }
+
+export const authenticateMail = async (username: string) => {
+  const stmt = db.prepare(
+    'update users set is_mail_authed=1 where username=@username;',
+  )
+  const info = stmt.run({ username })
+  return info
+}
