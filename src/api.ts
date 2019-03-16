@@ -79,8 +79,7 @@ router.get('/register', (req, res) => {
     const data = verify(jwt, process.env.JWT_SECRET_KEY || '') as any
     const info = authenticateMail(data.username)
     console.log(info)
-    res.send('本登録完了しました')
-    // TODO リダイレクト
+    res.redirect('http://localhost:8080') // TODO
   } catch (e) {
     if (e instanceof TokenExpiredError) {
       res.send(
