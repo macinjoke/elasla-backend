@@ -1,5 +1,5 @@
 import express from 'express'
-import { sign, verify } from 'jsonwebtoken'
+import { sign, TokenExpiredError, verify } from 'jsonwebtoken'
 import passport from 'passport'
 import { search } from './elasticsearch'
 import { sendMail } from './mail'
@@ -47,7 +47,7 @@ router.get(
     console.log(req.user)
     res.json({
       username: req.user.username,
-      isMailAuthed: false, // TODO
+      isMailAuthed: Boolean(req.user.isMailAuthed),
       jwt: sign(
         {
           username: req.user.username,
@@ -75,11 +75,19 @@ router.post('/register', async (req, res, next) => {
 router.get('/register', (req, res) => {
   console.log(req.body)
   const jwt = req.query.token
-  const data = verify(jwt, process.env.JWT_SECRET_KEY || '') as any
-  const info = authenticateMail(data.username)
-  console.log(info)
-  res.send('本登録完了しました')
-  // TODO リダイレクト
+  try {
+    const data = verify(jwt, process.env.JWT_SECRET_KEY || '') as any
+    const info = authenticateMail(data.username)
+    console.log(info)
+    res.send('本登録完了しました')
+    // TODO リダイレクト
+  } catch (e) {
+    if (e instanceof TokenExpiredError) {
+      res.send(
+        '有効期限が切れています。ログインしてメールを送信するか、新規登録をやり直してください', // TODO もう一度おくれるようにする
+      )
+    }
+  }
 })
 
 router.get(

@@ -25,7 +25,10 @@ export const getUser = (username: string) => {
     'SELECT username, is_mail_authed FROM users where username=@username',
   )
   const row = stmt.get({ username })
-  return row
+  return {
+    username: row.username,
+    isMailAuthed: row.is_mail_authed,
+  }
 }
 
 export const createUser = async (username: string, password: string) => {
