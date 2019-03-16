@@ -1,5 +1,10 @@
 import express from 'express'
-import { sign, TokenExpiredError, verify } from 'jsonwebtoken'
+import {
+  JsonWebTokenError,
+  sign,
+  TokenExpiredError,
+  verify,
+} from 'jsonwebtoken'
 import passport from 'passport'
 import { search } from './elasticsearch'
 import { sendMail } from './mail'
@@ -76,7 +81,9 @@ router.get('/register', (req, res) => {
   console.log(req.body)
   const jwt = req.query.token
   try {
-    const data = verify(jwt, process.env.JWT_SECRET_KEY || '') as any
+    const data = verify(jwt, process.env.JWT_SECRET_KEY || '', {
+      subject: 'email',
+    }) as any
     const info = authenticateMail(data.username)
     console.log(info)
     res.redirect('http://localhost:8080?mail=ok') // TODO
@@ -85,6 +92,9 @@ router.get('/register', (req, res) => {
       res.send(
         '有効期限が切れています。ログインしてメールを送信するか、新規登録をやり直してください', // TODO もう一度おくれるようにする
       )
+    }
+    if (e instanceof JsonWebTokenError) {
+      res.status(400).send('bad request')
     }
   }
 })
