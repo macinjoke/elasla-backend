@@ -51,6 +51,11 @@ app.use((req, res, next) => {
   next()
 })
 
+// デバッグ用にレスポンスにディレイを与える
+app.use((req, res, next) => {
+  setTimeout(next, Number(process.env.RESPONSE_DELAY))
+})
+
 app.get('/', (req, res) => res.send('Hello World!'))
 app.use('/api', api)
 
