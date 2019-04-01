@@ -1,0 +1,4 @@
+/node_modules
+.env
+.env_default
+.env_docker

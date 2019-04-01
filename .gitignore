@@ -3,3 +3,4 @@
 yarn-error.log
 /db/*.sqlite3
 .env
+.env_docker
