@@ -59,4 +59,6 @@ app.use((req, res, next) => {
 app.get('/', (req, res) => res.send('Hello World!'))
 app.use('/api', api)
 
-app.listen(3000, () => console.log('Listening on 3000...'))
+app.listen(process.env.PORT, () =>
+  console.log(`Listening on ${process.env.PORT}...`),
+)
