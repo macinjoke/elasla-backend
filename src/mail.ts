@@ -38,7 +38,7 @@ export async function sendMail(username: string) {
     text: `
 elasla 仮登録が完了しました。
 以下のリンクをクリックして elasla の本登録をしてください
-http://localhost:3000/api/register?token=${jwt}
+http://${process.env.HOST}:${process.env.PORT}/api/register?token=${jwt}
 `,
   }
   const info = await transporter.sendMail(mailOptions)

@@ -1,0 +1,12 @@
+version: '3'
+services:
+  backend:
+    build: "."
+    ports:
+      - "80:80"
+    volumes:
+      - ".:/app"
+      - "/app/node_modules/"
+      - ".env_docker:/app/.env"
+    environment:
+      ENV: "development"

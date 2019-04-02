@@ -1,7 +1,7 @@
 import * as bcrypt from 'bcrypt'
 import Database from 'better-sqlite3'
 
-const filename = 'db/hoge.sqlite3' // TODO
+const filename = 'db/app.sqlite3'
 const db = new Database(filename)
 
 const saltRounds = 10
