@@ -1,4 +1,4 @@
-version: '3'
+version: '2'
 services:
   backend:
     build: "."
@@ -10,3 +10,44 @@ services:
       - ".env_docker:/app/.env"
     environment:
       ENV: "development"
+    networks:
+      - esnet
+    depends_on:
+      - elasticsearch
+  elasticsearch:
+    build:
+      context: elasticsearch/
+      args:
+        ELK_VERSION: $ELK_VERSION
+    volumes:
+      - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+      - ./elasticsearch/data:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      ES_JAVA_OPTS: "-Xmx1g -Xms1g"
+    mem_limit: 8g
+    ulimits:
+      nproc: 1048576
+      nofile:
+        soft: 1048576
+        hard: 1048576
+    networks:
+      - esnet
+  kibana:
+    build:
+      context: kibana/
+      args:
+        ELK_VERSION: $ELK_VERSION
+    volumes:
+      - ./kibana/config/:/usr/share/kibana/config:ro
+    ports:
+      - "5601:5601"
+    networks:
+      - esnet
+    depends_on:
+      - elasticsearch
+networks:
+  esnet:
+    driver: bridge
