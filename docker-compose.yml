@@ -21,18 +21,13 @@ services:
         ELK_VERSION: $ELK_VERSION
     volumes:
       - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
-      - ./elasticsearch/data:/usr/share/elasticsearch/data
+      - es_data:/usr/share/elasticsearch/data
     ports:
       - "9200:9200"
       - "9300:9300"
     environment:
-      ES_JAVA_OPTS: "-Xmx1g -Xms1g"
+      ES_JAVA_OPTS: "-Xmx2g -Xms2g"
     mem_limit: 8g
-    ulimits:
-      nproc: 1048576
-      nofile:
-        soft: 1048576
-        hard: 1048576
     networks:
       - esnet
   kibana:
@@ -51,3 +46,5 @@ services:
 networks:
   esnet:
     driver: bridge
+volumes:
+  es_data:
